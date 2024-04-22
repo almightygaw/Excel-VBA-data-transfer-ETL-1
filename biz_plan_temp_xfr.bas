@@ -19,13 +19,13 @@ Sub biz_plan_temp_xfr()
   
   ' Source workbook
   Dim sourceWbPath As String
-  sourceWbPath = InputBox("Source file path: ") ' enter source file name
+  sourceWbPath = "Q:\FPO Business Development\Business Plans\NYP Review\Buratto\FY25 22-CT Pediatric Cardiac Surgery Recruit - TBD Bplan - 4.18.2024 Backup.xlsb" 'InputBox("Source file path: ") ' enter source file name
   Dim Source As Workbook
   Set Source = Workbooks.Open(sourceWbPath)
   
   ' Destination workbook (blank template workbook)
   Dim destWbName As String
-  destWbName = InputBox("Destination file path: ")    ' enter destination file name
+  destWbName = "Q:\FPO Business Development\Glenn White\Buratto.xlsb" 'InputBox("Destination file path: ")    ' enter destination file name
   Application.AskToUpdateLinks = False
   Application.DisplayAlerts = False
   Workbooks.Open (destWbName)
@@ -123,10 +123,10 @@ Sub biz_plan_temp_xfr()
   Dim ProfRevSched_Source As Worksheet: Set ProfRevSched_Source = Source.Worksheets(profRevSched)
   Dim ProfRevSched_Destination As Worksheet: Set ProfRevSched_Destination = Destination.Worksheets(profRevSched)
   
-  Dim ProfRevSchedRange As Variant
-  ProfRevSchedRange = Array("C11", "D11", "E11", "F11", "G11")
+  Dim ProfRevSchedRange1 As Variant
+  ProfRevSchedRange1 = Array("C11", "D11", "E11", "F11", "G11")
   
-  For Each i In ProfRevSchedRange
+  For Each i In ProfRevSchedRange1
 '    If ProfRevSched_Source.Range(i).HasFormula = True Then                             ' returns blank because references
 '      ProfRevSched_Destination.Range(i).Formula = ProfRevSched_Source.Range(i).Formula ' cells that are empty in Destination wb
 '    Else
@@ -146,7 +146,7 @@ Sub biz_plan_temp_xfr()
                              "E10:E15", "E21:E24", "E34:F45", "G21:K24", "G71:G72", _
                              "G74:K75", "G77:K82", "G84:G87", "G114:K115", "I71", _
                              "J10", "K71", "M27", "M34:Q45", "M65:N121", "S31:S46", _
-                             "H90:K90", "G68", "G21:K24")
+                             "H90:K90", "G68", "G21:K24", "C95", "G95:K95")
   
   For Each i In ExpenseSchedRange1
     If ExpenseSched_Source.Range(i).HasFormula = True Then
@@ -172,7 +172,7 @@ Sub biz_plan_temp_xfr()
   
   ' hardcoded values, per Lindsay
   Dim ExpenseSchedRange5 As Variant
-  ExpenseSchedRange5 = Array("E16:E17", "G90", "C73:N73", "C83:N83")
+  ExpenseSchedRange5 = Array("E16:E17", "G90", "C73:N73", "C83:N83", "G102:K109")
   
   For Each i In ExpenseSchedRange5
     ExpenseSched_Destination.Range(i).Value2 = ExpenseSched_Source.Range(i).Value2
@@ -203,6 +203,14 @@ Sub biz_plan_temp_xfr()
     End If
   Next i
   
+  ' column M notes with formatting
+  Dim ExpenseSchedRange6 As Variant
+  ExpenseSchedRange6 = Array("M1:M26", "M28:M30", "M47:M75", "M77:M121")
+  
+  For Each i In ExpenseSchedRange6
+    ExpenseSched_Source.Range(i).Copy
+    ExpenseSched_Destination.Range(i).PasteSpecial Paste:=xlPasteAll
+  Next i
   
   ' --------------------------------------------------------------------------------------------------
   ' Columbia Data (wRVU, Rev, MGMA) ------------------------------------------------------------------
@@ -246,7 +254,7 @@ Sub biz_plan_temp_xfr()
   ' D36:H38 = sourceWb.Worksheets("Professional Revenue Schedule").Range(C28:G30)
   Dim columbiaDataArray2 As Variant
   columbiaDataArray2 = Array("D30", "D31", "D32", "E30", "E31", "E32", "F30", "F31", "F32", _
-                             "G30", "G31", "G32", "H30", "H31", "H32")
+                             "G30", "G31", "G32", "H30", "H31", "H32", "D36:H38")
                              
   For Each i In columbiaDataArray2
 '    If ProfRevSched_Source.Range(i).HasFormula = True Then
