@@ -1,0 +1,301 @@
+' This macro copies data from a given template and pastes it to a given template.
+
+' Macro instructions:
+' 1.  Create a copy of the template Excel file in desired directory folder. Make a note of this location, as it will be required for step 5 below.
+' 2.  Run the macro.
+' 3.  You will see a prompt: "Source file path:". Copy the file path for the source file, paste it in the text box, and click OK.
+' 4.  You will see a second prompt: "Destination file path:". Copy the file path for the template file you created in step 1 above, paste it in the text box, and click OK.
+' ------------------------------------------------------------
+
+Sub template_xfr()
+  
+  ' Source workbook
+  Dim sourceWbPath As String
+  sourceWbPath = InputBox("Source file path: ") ' enter source file name
+  Dim Source As Workbook
+  Set Source = Workbooks.Open(sourceWbPath)
+  
+  ' Destination workbook (blank template workbook)
+  Dim destWbName As String
+  destWbName = InputBox("Destination file path: ") ' enter destination file name
+  Application.AskToUpdateLinks = False
+  Application.DisplayAlerts = False
+  Workbooks.Open (destWbName)
+  Dim Destination As Workbook
+  Set Destination = Workbooks.Open(destWbName)
+
+  ' ---------------------------------------------------------------------------------------------------
+  ' Sheet 1 -------------------------------------------------------------------------------------------
+  Dim Sheet1 As String
+  PropPack = "Sheet1"
+  
+  Dim Sheet1_Source As Worksheet
+  Set Sheet1_Source = Source.Worksheets(Sheet1)
+  Dim Sheet1_Destination As Worksheet
+  Set Sheet1_Destination = Destination.Worksheets(Sheet1)
+  
+  ' cell values to be copied over
+  Dim PropPackRange As Variant
+  Sheet1Range = Array("C12", "C13", "C15", "C18", "C21", "C30", "C31", "C32", "C33", "C34", _
+                      "C36", "C37", "C38", "C39", "C41", "C43", "C44", "C46", "C47", "C48", _
+                      "C51", "C54", "C57", "C58", "C59", "C60", "C63", "C64", "C67", "C69", _
+                      "C71", "B76", "F23", "F24", "F25", "F26", "G23", "G24", "G25", "G26", _
+                      "F31", "F32", "F33", "F34", "F36", "E58", "E59", "E60", "F58", "F59", _
+                      "F60", "G58", "G59", "G60", "F64", "F65", "G101", "G106", "E111", "G118") ' non-contiguous range to set values
+  
+' loop through cells, assign values
+  For Each i In Sheet1Range
+'    If Sheet1_Source.Range(i).HasFormula Then ' no formulas on this tab
+'      Sheet1_Destination.Range(i).Formula = Sheet1_Source.Range(i).Formula
+'    Else
+      Sheet1_Destination.Range(i).Value2 = Sheet1_Source.Range(i).Value2
+'    End If
+  Next i
+  ' ---------------------------------------------------------------------------------------------------
+  ' Sheet2 --------------------------------------------------------------------------------------------
+  Dim Sheet2 As String
+  SupportReq = "Sheet2"
+  
+  Dim Sheet2_Source As Worksheet: Set Sheet2_Source = Source.Worksheets(Sheet2)
+  Dim Sheet2_Destination As Worksheet: Set Sheet2_Destination = Destination.Worksheets(Sheet2)
+  
+  ' cell values to be copied over
+  Dim Sheet2Range As Variant
+  Sheet2Range = Array("G107", "G112", "G117", "G128")
+  
+  ' loop through cells, assign values
+  For Each i In Sheet2Range
+    If Sheet2_Source.Range(i).HasFormula = True Then
+      Sheet2_Destination.Range(i).Formula = Sheet2_Source.Range(i).Formula
+    Else
+      Sheet2_Destination.Range(i).Value2 = Sheet2_Source.Range(i).Value2
+    End If
+  Next i
+  ' ---------------------------------------------------------------------------------------------------
+  ' Sheet3 --------------------------------------------------------------------------------------------
+  Dim Sheet3 As String
+  Sheet3 = "Sheet3"
+  
+  Dim Sheet3_Source As Worksheet: Set Sheet3_Source = Source.Worksheets(Sheet3)
+  Dim Sheet3_Destination As Worksheet: Set Sheet3_Destination = Destination.Worksheets(Sheet3)
+  
+  Dim Sheet3Range As Variant
+  Sheet3MixRange = Array("D7", "E7", "D11", "D12", "D13", "D14")
+  
+  For Each i In Sheet3Range
+'    If Sheet3_Source.Range(i).HasFormula = True Then ' returns error because references cells that don't exist in destination file
+'      Sheet3_Destination.Range(i).Formula2 = Sheet3_Source.Range(i).Formula2 ' tab not included in Destination wb
+'    Else
+     Sheet3_Destination.Range(i).Value2 = Sheet3_Source.Range(i).Value2
+ '   End If
+  Next i
+  ' ---------------------------------------------------------------------------------------------------
+  ' Sheet4 --------------------------------------------------------------------------------------------
+  Dim Sheet4 As String
+  Sheet4 = "Sheet4"
+  
+  Dim Sheet4_Source As Worksheet: Set Sheet4_Source = Source.Worksheets(Sheet4)
+  Dim Sheet4_Destination As Worksheet: Set Sheet4_Destination = Destination.Worksheets(Sheet4)
+  
+  Dim Sheet4Range As Variant
+  Sheet4Range = Array("F2", "D5", "E11", "D15", "E15", "F15", "G15", "H15")
+  
+  For Each i In Sheet4Range
+'    If Sheet4_Source.Range(i).HasFormula = True Then ' returns error because references cells that don't exist in destination file
+'      Sheet4_Destination.Range(i).Formula = Sheet4Sched_Source.Range(i).Formula  ' tab not included in Destination wb
+'    Else
+      Sheet4_Destination.Range(i).Value2 = Sheet4_Source.Range(i).Value2
+'    End If
+  Next i
+  ' ---------------------------------------------------------------------------------------------------
+  ' Sheet5 --------------------------------------------------------------------------------------------
+  Dim Sheet5 As String
+  Sheet5 = "Sheet5"
+  
+  Dim Sheet5_Source As Worksheet: Set Sheet5_Source = Source.Worksheets(Sheet5)
+  Dim Sheet5_Destination As Worksheet: Set Sheet5_Destination = Destination.Worksheets(Sheet5)
+  
+  Dim Sheet5Range1 As Variant
+  Sheet5Range1 = Array("C11", "D11", "E11", "F11", "G11")
+  
+  For Each i In Sheet5Range1
+'    If Sheet5_Source.Range(i).HasFormula = True Then ' returns blank because references cells that don't exist in destination file
+'      Sheet5_Destination.Range(i).Formula = Sheet5_Source.Range(i).Formula ' cells that are empty in Destination wb
+'    Else
+      Sheet5_Destination.Range(i).Value2 = Sheet5_Source.Range(i).Value2
+'    End If
+  Next i
+  ' ---------------------------------------------------------------------------------------------------
+  ' Sheet6 --------------------------------------------------------------------------------------------
+  Dim Sheet6 As String
+  Sheet6 = "Sheet6"
+  
+  Dim Sheet6_Source As Worksheet: Set Sheet6_Source = Source.Worksheets(Sheet6)
+  Dim Sheet6_Destination As Worksheet: Set Sheet6_Destination = Destination.Worksheets(Sheet6)
+  
+  Dim Sheet6Range1 As Variant
+  Sheet6Range1 = Array("B34:B45", "C68:C71", "C90", "C102:C110", "C118:C120", _
+                       "E10:E15", "E21:E24", "E34:F45", "G21:K24", "G71:G72", _
+                       "G74:K75", "G77:K82", "G84:G87", "G114:K115", "I71", _
+                       "J10", "K71", "M27", "M34:Q45", "M65:N121", "S31:S46", _
+                       "H90:K90", "G68", "G21:K24", "C95", "G95:K95")
+  
+  For Each i In Sheet6Range1
+    If Sheet6_Source.Range(i).HasFormula = True Then
+      Sheet6_Destination.Range(i).Formula2 = Sheet6_Source.Range(i).Formula2
+    Else
+      Sheet6_Destination.Range(i).Value2 = Sheet6_Source.Range(i).Value2
+    End If
+  Next i
+  
+  
+  ' if cell in row M contains "specific criteria", paste hardcoded values in A:L, else ignore
+  Dim Sheet6Range4 As Variant
+  Sheet6Range4 = Array("M1:M121")
+  
+  For Each i In Sheet6Range4
+    If InStr(i, "specific criteria") > 0 Then
+      For j = -11 To -1
+        Sheet6_Destination.Range(i).Offset(0, j).Value2 = Sheet6_Source.Range(i).Offset(0, j).Value2
+      Next j
+    End If
+  Next i
+  
+  
+  ' hardcoded values, per client
+  Dim Sheet6Range5 As Variant
+  Sheet6Range5 = Array("E16:E17", "G90", "C73:N73", "C83:N83", "G102:K109")
+  
+  For Each i In Sheet6Range5
+    Sheet6_Destination.Range(i).Value2 = Sheet6_Source.Range(i).Value2
+  Next i
+  
+
+  ' if B34 like "specific criteria", paste formulas, else paste values
+  Dim Sheet6Range2 As Variant
+  Sheet6Range2 = Array("G34:K45")
+  
+  For Each i In Sheet6Range2
+    If InStr(Sheet6_Source.Range("B34"), "specific criteria") > 0 Then
+      Sheet6_Destination.Range(i).Value2 = Sheet6_Source.Range(i).Value2
+    Else
+      Sheet6_Destination.Range(i).Formula2 = Sheet6_Source.Range(i).Formula2
+    End If
+  Next i
+  
+  ' specific criteria logic applied to section1
+  Dim Sheet6Range3 As Variant
+  Sheet6Range3 = Array("G50:K61")
+  
+  For Each i In Sheet6Range3
+    If InStr(Sheet6_Source.Range("B50"), "specific criteria") > 0 Then
+      Sheet6_Destination.Range(i).Value2 = Sheet6_Source.Range(i).Value2
+    Else
+      Sheet6_Destination.Range(i).Formula2 = Sheet6_Source.Range(i).Formula2
+    End If
+  Next i
+  
+  ' column M notes with formatting
+  Dim Sheet6Range6 As Variant
+  Sheet6Range6 = Array("M1:M26", "M28:M30", "M47:M75", "M77:M121")
+  
+  For Each i In Sheet6Range6
+    Sheet6_Source.Range(i).Copy
+    Sheet6_Destination.Range(i).PasteSpecial Paste:=xlPasteAll
+  Next i
+  
+  ' --------------------------------------------------------------------------------------------------
+  ' Sheet7 (protected) -------------------------------------------------------------------------------
+  ' --------------------------------------------------------------------------------------------------
+  Dim Sheet7 As String
+  Sheet7 = "Sheet7"
+  
+  Dim Sheet7_Destination As Worksheet: Set Sheet7_Destination = Destination.Worksheets(Sheet7)
+  
+  Dim pw As String
+  pw = "password"
+  
+  Sheet7_Destination.Activate
+  
+  ' unprotect worksheet
+  Sheet7_Destination.Unprotect Password:=pw
+  
+  ' unhide all columns
+  Sheet7_Destination.Columns.EntireColumn.Hidden = False
+  
+  ' remove autofilter
+  Sheet7_Destination.ShowAllData
+  
+  ' E11:E13, D16:H18, D22:H24 = sourceWb.Worksheets("Sheet7").Range(E24:E26, D29:D31, D35:H37)
+  Dim Sheet7Array1 As Variant
+  Sheet7Array1 = Array("E11", "E12", "E13", _
+                       "D16", "D17", "D18", "E16", "E17", "E18", "F16", "F17", "F18", "G16", "G17", "G18", "H16", "H17", "H18", _
+                       "D22", "D23", "D24", "E22", "E23", "E24", "F22", "F23", "F24", "G22", "G23", "G24", "H22", "H23", "H24")
+                             
+  For Each i In Sheet7Array1
+'    If Sheet4_Source.Range(i).Offset(13, 0).HasFormula = True Then
+'      Sheet7_Destination.Range(i).Formula = Sheet4Sched_Source.Range(i).Offset(13, 0).Formula
+'    Else
+      Sheet7_Destination.Range(i).Value2 = Sheet4_Source.Range(i).Offset(13, 0).Value2
+'    End If
+  Next i
+  
+  
+  ' D30:H32 = sourceWb.Worksheets("Sheet5").Range(C22:G24)
+  ' D36:H38 = sourceWb.Worksheets("Sheet5").Range(C28:G30)
+  Dim Sheet7Array2 As Variant
+  Sheet7Array2 = Array("D30", "D31", "D32", "E30", "E31", "E32", "F30", "F31", "F32", _
+                       "G30", "G31", "G32", "H30", "H31", "H32", "D36:H38")
+                             
+  For Each i In Sheet7Array2
+'    If Sheet5_Source.Range(i).HasFormula = True Then
+'      Sheet7_Destination.Range(i).Formula = Sheet5_Source.Range(i).Offset(-8, -1).Formula
+'    Else
+      Sheet7_Destination.Range(i).Value2 = Sheet5_Source.Range(i).Offset(-8, -1).Value2
+'    End If
+  Next i
+  
+  ' REFERENCED TAB: unhide everything, unprotect
+  ' entire section from sourceWb.Worksheets("REFERENCED TAB") (Autopopulated) section
+  ' row 47 headers also need to be copied
+  Dim Sheet7Array3() As String
+  ReDim Preserve Sheet7Array3(0)
+  
+  ' create array of data to be copied
+  For Each i In Array("B", "C", "D", "E", "F", "G", "H", "I")
+    For j = 46 To 101
+      ReDim Preserve Sheet7Array3(UBound(Sheet7Array3) + 1)
+      If VarType(Source.Worksheets("REFERENCED TAB").Range(i & j)) = 10 Then
+        Sheet7Array3(UBound(Sheet7Array3)) = ""
+      Else
+        Sheet7Array3(UBound(Sheet7Array3)) = Source.Worksheets("REFERENCED TAB").Range(i & j)
+      End If
+    Next j
+  Next i
+  
+  ' paste array elements to destination range
+  Dim k As Long
+  k = 1
+  
+  For Each i In Array("C", "D", "E", "F", "G", "H", "I", "J")
+    For j = 42 To 97
+      Sheet7_Destination.Range(i & j).Value2 = Sheet7Array3(k)
+      k = k + 1
+    Next j
+  Next i
+  
+  ' replace autofilter
+  Sheet7_Destination.Range("A:A").AutoFilter Field:=1, Criteria1:="Yes"
+  
+  ' hide column A
+  Sheet7_Destination.Range("A:A").EntireColumn.Hidden = True
+  
+  ' re-protect worksheet
+  Sheet7_Destination.Protect Password:=pw
+
+  
+  ' ---------------------------------------------------------------------------------------------------
+End Sub
+
+
+
